@@ -95,17 +95,17 @@ body {
 .panel-footer div.row {
   margin-bottom: 35px;
 }
-#hours, #address {
+#header-footer{
+  font-size: 1.8em;
+  text-align: center;
+}
+#ulilities, #furnitured, #security{
   line-height: 2;
 }
-#hours > span, #address > span {
+#ulilities > span, #furnitured > span, #security > span {
   font-size: 1.3em;
 }
-#address p {
-  color: #557c3e;
-  font-size: .8em;
-  line-height: 1.8;
-}
+
 #testimonials {
   font-style: italic;
 }
@@ -295,7 +295,7 @@ h3.menu-item-title {
   #collapsable-nav a span { /* Collapsed nav menu glyph */
     font-size: 1em;
     margin-right: 5px;
-    text-align: left;
+    
   }
 
   #call-btn > a {
