@@ -21,6 +21,7 @@ const deck = [
   ];
 let drawncards = [];
 let messageid = document.getElementById ("message");
+let dealerid = document.getElementById("dealer");
 let cardsid = document.getElementById("cards");
 let sumid = document.getElementById("sumresult");
 let sum = 0;
@@ -64,11 +65,11 @@ function start () {
         return name;
         }
     
-    cardsid.innerText = "Cards: " + render(0) + ", " + render(1);
+    cardsid.innerText = "Your Cards: " + render(0) + ", " + render(1);
     sumid.textContent = sum;
+    dealerid.innerText = "";
     return drawncards;
 }
-console.log (drawncards);
 
 // function for add acrd button -> draw randomly 1 cards
 document.getElementById("new-btn").addEventListener("click", newcard);
@@ -94,6 +95,55 @@ function newcard (){
     };
 }
 
+// function for done game -> return a result with dealer
+document.getElementById("done-btn").addEventListener("click", done);
+function done (){
+    drawncards = [
+        {deck: drawdeck(), suit: drawsuits()},
+        {deck: drawdeck(), suit: drawsuits()},
+        {deck: drawdeck(), suit: drawsuits()},
+        {deck: drawdeck(), suit: drawsuits()},
+        {deck: drawdeck(), suit: drawsuits()}
+    ];
+    let dealercard = [];
+    dealercard = [drawncards[0], drawncards[1]];
+    function sumdealder(dealercard) {
+        let sum = 0;
+        for (let i = 0; i < dealercard.length; i++) {
+          sum += dealercard[i].deck.score;
+        };
+        return sum;
+    }
+    function finaldealer () {
+        for (let i = 2, sum = sumdealder(dealercard); sum < 19; i++) {
+            dealercard.push(drawncards[i]);
+            sum = sumdealder(dealercard);
+        };
+     return dealercard;
+    }
+
+    dealercard = finaldealer();
+    sum = sumdealder (dealercard);
+
+    if (parseInt(sumid.innerText)< 22 && sum < parseInt(sumid.innerText) ||
+        parseInt(sumid.innerText)< 22 && sum > 21) {
+        messageid.innerText = "Woohoo! You winnn!";
+    } else { 
+        messageid.innerText = "Oh no! Come on! That's fine. Try again!"
+    };
+  
+    let name = "";
+    function renderdealder(dealercard){
+        for (let i = 0; i < dealercard.length; i++) {
+            name += drawncards[i].deck.value + "-" + drawncards[i].suit.properties + " ";
+          };
+          return name;
+    }
+    name = renderdealder(dealercard);
+    console.log(sum);
+    console.log(name);
+    dealerid.innerText = "Dealer's Cards: " + name;  
+}
 
 
     
