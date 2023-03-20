@@ -12,10 +12,12 @@ let arrayLength = sudoku.length;
 let randomIndex = [];
 let timerEl = document.getElementById("timer");
 let startEl = document.getElementById("startGame");
-let hintEl = document.getElementById("hint");
+let hintEl = document.getElementById("hintbtn");
+let numberEl = document.getElementById("number");
 let tableEl = document.getElementById("table");
 let entryEl = document.getElementById("entry");
 let cellEl = document.getElementsByClassName("cell");
+let fixedCellEl = document.getElementsByClassName("fixedCell");
 let submitEl = document.getElementById("submit");
 let value = "";
 let index = "";
@@ -36,29 +38,32 @@ function startbtn () {
     randomIndex.forEach((element) => {
         cellEl[element].innerText = sudoku[element];
        });
+    // resent the number of hint
+    numberEl.innerHTML = 3;
     //function timer
-    
 }
 
+//function hint button
+hintEl.addEventListener("click", hint);
+function hint (){
+    if (Number(numberEl.innerHTML) !== 0){
+        let list = generateArray();
+        let index = list.findIndex((element) => element =="");
+        cellEl[index].innerText = sudoku[index];
+        numberEl.innerHTML -= 1;
+    } else {
+        alert("You used all hints!");
+    }
+}
 // function submit button
 submitEl.addEventListener("click", check);
 let i = 0;
 let acc = true;
 function check (){
-    let checkList = Array.of();
-    for (let i = 0; i<cellEl.length; i++) {
-        value = cellEl[i].innerText;
-        checkList.push(value);
-    }
-    console.log(checkList);
-    checkList.every(checkFill)
+    let list = generateArray();
 
-    function checkFill(element) {
-      return element > 0 && element < 10;
-    }
-    console.log(checkList.every(checkFill));
-    if ( checkList.every(checkFill)){
-        if (match(sudoku, checkList, 0)){
+    if ( list.every(checkFill)){
+        if (match(sudoku, list, 0)){
             alert("You win!");
         } else {
             alert("You lose!");
@@ -66,7 +71,9 @@ function check (){
     } else {
         alert("You need to fill all the blanks!");
     }
-
+    function checkFill(element) {
+        return element > 0 && element < 10;
+      }
 }
 // function get value in entry row
 entryEl.addEventListener("click", getValue);
@@ -78,6 +85,7 @@ function getValue (event){
 tableEl.addEventListener("click", fillBlank);
 function fillBlank (eve) {
     let cell = eve.target;
+    if (cell.getElementsByClassName)
      if ( cell.innerText === "" && value === ""){
         alert("Please click the value in the last row that you want to insert!");
     } else if (cell.innerText !== "" && value === "" ) {
@@ -96,7 +104,9 @@ function match (array1, array2, acc){
     if (Array.isArray(array1) && Array.isArray(array2) ){
         if (array1[0] == Number(array2[0])){
             acc = true; 
-            return match (array1.shift(), array2.shift(), acc);      
+            newArray1 = array1.pop();
+            newArray2 = array2.pop();
+            return match (newArray1, newArray2, acc);      
         } else {
             return acc = false;
         }
@@ -104,8 +114,10 @@ function match (array1, array2, acc){
         return acc;
     }    
 }
-let ar1 = [1,2];
-let ar2 = [1,3];
+let ar1 = [1,92];
+ar1 = ar1.pop();
+console.log(ar1);
+let ar2 = [1,6];
 console.log(match (ar1, ar2, acc));
 
 
@@ -119,13 +131,14 @@ function randomList () {
     }
     return randomIndex.sort();
 }
-
-
-
-
-
-  
-
-
+// function generate the array of cell
+function generateArray (){
+    let checkList = Array.of();
+    for (let i = 0; i<cellEl.length; i++) {
+        value = cellEl[i].innerText;
+        checkList.push(value);
+    }
+    return checkList;
+}
 
 

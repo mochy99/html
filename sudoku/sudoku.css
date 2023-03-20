@@ -41,7 +41,7 @@ h1{
   display:table;
 }
 
-.cell, .cellEntry {
+.cell, .cellEntry, .fixedcell {
   float: left;
   align-items: center;
   justify-content: center;
