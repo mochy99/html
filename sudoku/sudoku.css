@@ -1,8 +1,38 @@
+* {
+  box-sizing: border-box;
+}
 body{
   text-align: center;
+  align-items: center
+;
 }
 h1{
-  font-size: 4em;
+  font-size: 3em;
+}
+#timer{
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+#hint{
+  text-align: center;
+  position: relative;
+  margin-top: 20px;
+}
+#number{
+  height: 2em;
+  width: 2em;
+  background-color: #b86b0dfa;
+  border-radius: 50%;
+  position: absolute;
+  left: calc(50% + 6em);
+  top: -15px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: rgb(236, 236, 236);
+}
+#table{
+  margin-top: 25px;
 }
 .row {
   margin-left: auto;
@@ -32,16 +62,15 @@ h1{
     font-weight: bold;
     text-align: center;
     text-decoration: none;
-    background-color: #43b6be;
+    background-color: #4a9b9f;
     color: white;
     border: none;
     border-radius: 0.5em;
     cursor: pointer;
-    margin-bottom: 20px;
   }
   
   button:hover {
-    background-color: #697a92;
+    background-color: #7d9dca;
   }
 
   #entry > .cellEntry{
