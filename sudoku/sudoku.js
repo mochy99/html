@@ -10,6 +10,8 @@ const board = [
     3,4,5,2,8,6,1,7,9
 ];
 let sudoku;
+let initialBoard;
+let currentBoard;
 let randomIndex = [];
 let timerEl = document.getElementById("timer");
 let startEl = document.getElementById("startGame");
@@ -26,7 +28,7 @@ let index = "";
 // function START game button
 startEl.addEventListener("click", startbtn);
 function startbtn () {
-    sudoku = board;
+    sudoku = board.slice(0);
     console.log(board.length);
     console.log(sudoku.length);
     // clear the board
@@ -34,10 +36,9 @@ function startbtn () {
     //push number generated randomly
     randomIndex = Array.of();
     randomIndex = randomList();
+    initialBoard = Array.of();
 
-    randomIndex.forEach((element) => {
-        cellEl[element].innerText = sudoku[element];
-    });
+    generateInitialBoard();
     console.log(board.length);
     console.log(sudoku.length);
     // refresh the number of hint
@@ -65,7 +66,6 @@ submitEl.addEventListener("click", check);
 let i = 0;
 let acc = true;
 function check (){
-    changeCell ();
     let list = generateArray();
     listNumber = Array.from(list, x => Number(x));
 
@@ -83,10 +83,7 @@ function check (){
     function checkFill(element) {
         return element > 0 && element < 10;
     }
-    console.log(sudoku);
-    console.log(board);
-    console.log(board.length);
-    console.log(sudoku.length);
+
 }
 
 // function get value in entry row
@@ -106,14 +103,21 @@ function fillBlank (eve) {
         }  else if (cell.innerText !== "" && value === "" ) {
             cell.innerText = "";
             cell.style.backgroundColor = "white";
+            if (!match(initialBoard,currentArray())){
+                generateInitialBoard();
+            }
         } else if (value !== "") {
             cell.innerText = value;
-            cell.style.backgroundColor = "grey";
+            cell.style.backgroundColor = "seashell";
+            if (!match(initialBoard,currentArray())){
+                generateInitialBoard();
+            }
         } 
         value = "";
     } else {
-        alert("You cannot change this value!"); 
+        alert("Choose the cell you want to fill!"); 
     }    
+
 }
 
 // function match 2 array
@@ -133,13 +137,23 @@ function match (array1, array2){
 
 // function random a list
 function randomList () {
-    for (i=0; i < 190; i++) {
+    for (i=0; i < 50; i++) {
         let lambda = Math.floor(Math.random ()* 81);
         if (!randomIndex.includes(lambda)){
             randomIndex.push(lambda);
         }
     }
     return randomIndex.sort();
+}
+
+//function generate the array from randomIndex
+function generateInitialBoard (){
+    randomIndex.forEach((element) => {
+        cellEl[element].innerText = sudoku[element];
+        cellEl[element].style.backgroundColor = "lightsteelblue";
+        value = sudoku[element];
+        initialBoard.push(value);
+    });
 }
 
 // function generate the array of cell
@@ -152,12 +166,17 @@ function generateArray (){
     return checkList;
 }
 
-// function change fixedCell to cell class
-function changeCell (){
+// randomIndex -> Array with the same index
+function currentArray (){
+    currentBoard = Array.of();
     randomIndex.forEach((element) => {
-        cellEl[element].classList.replace("fixedCell", "cell");
-       });
+        value = cellEl[element].innerText;
+        currentBoard.push(value);
+    });
+    return currentBoard;
 }
+
+
 
 // function clear the board
 function clearEl (){
