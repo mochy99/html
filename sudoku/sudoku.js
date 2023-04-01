@@ -1,3 +1,4 @@
+// DECLARE VARIABLES AND CONSTANTS
 const board = [
     5,3,4,6,7,8,9,1,2,
     6,7,2,1,9,5,3,4,8,
@@ -24,7 +25,9 @@ let fixedCellEl = document.getElementsByClassName("fixedCell");
 let submitEl = document.getElementById("submit");
 let value = "";
 let index = "";
+// ---------------------------------------------------------------
 
+// FUNCTION FOR BUTTONS
 // function START game button
 startEl.addEventListener("click", startbtn);
 function startbtn () {
@@ -85,7 +88,9 @@ function check (){
     }
 
 }
+// --------------------------------------------------------
 
+//EVENT FROM PLAYER
 // function get value in entry row
 entryEl.addEventListener("click", getValue);
 function getValue (event){
@@ -119,7 +124,9 @@ function fillBlank (eve) {
     }    
 
 }
+// --------------------------------------------------------
 
+// HELPER FUNCTIONS
 // function match 2 array
 function match (array1, array2){
     if (array1.length == 0 && array2.length == 0 ){
@@ -156,7 +163,7 @@ function generateInitialBoard (){
     });
 }
 
-// function generate the array of cell
+// function generate the whole board
 function generateArray (){
     let checkList = Array.of();
     for (let i = 0; i<81; i++) {
@@ -166,7 +173,7 @@ function generateArray (){
     return checkList;
 }
 
-// randomIndex -> Array with the same index
+// generate the current board
 function currentArray (){
     currentBoard = Array.of();
     randomIndex.forEach((element) => {
@@ -175,7 +182,6 @@ function currentArray (){
     });
     return currentBoard;
 }
-
 
 
 // function clear the board
@@ -187,3 +193,7 @@ function clearEl (){
         }
     }
 }
+
+// function timer
+
+
