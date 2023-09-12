@@ -16,52 +16,80 @@ let currentBoard;
 let randomIndex = [];
 let timerEl = document.getElementById("timer");
 let startEl = document.getElementById("startGame");
+let levelEl = document.getElementById("level");
+let easyEl = document.getElementById("easy");
+let mediumEl = document.getElementById("medium");
+let hardEl = document.getElementById("hard");
 let hintEl = document.getElementById("hintbtn");
+let submitEl = document.getElementById("submit");
+let resetEl = document.getElementById("reset");
 let numberEl = document.getElementById("number");
 let tableEl = document.getElementById("table");
 let entryEl = document.getElementById("entry");
 let cellEl = document.getElementsByClassName("cell");
 let fixedCellEl = document.getElementsByClassName("fixedCell");
-let submitEl = document.getElementById("submit");
 let value = "";
 let index = "";
+let interval;
+let level = "EASY";
+let numberOfLevel = 50;
+let isPlaying = false;
 // ---------------------------------------------------------------
 
 // FUNCTION FOR BUTTONS
 // function START game button
 startEl.addEventListener("click", startbtn);
 function startbtn () {
-    sudoku = board.slice(0);
-    console.log(board.length);
-    console.log(sudoku.length);
-    // clear the board
-    clearEl ();
-    //push number generated randomly
-    randomIndex = Array.of();
-    randomIndex = randomList();
-    initialBoard = Array.of();
+    if (isPlaying) {
+        // clear the board  
+        clearEl ();
+        startEl.innerHTML = "START GAME";     
+        isPlaying = false;  
+    } else {
+        sudoku = board.slice(0);
+ 
+        //push number generated randomly
+        randomIndex = Array.of();
+        randomIndex = randomList();
+        initialBoard = Array.of();
 
-    generateInitialBoard();
-    console.log(board.length);
-    console.log(sudoku.length);
-    // refresh the number of hint
-    numberEl.innerHTML = 3;
-    //function timer
+        generateInitialBoard();
+
+        // refresh the html
+        numberEl.innerHTML = 3;
+        startEl.innerHTML = "STOP GAME";
+        isPlaying = true;
+        //function timer
+        interval = 600;
+        timer(timerEl);
+        changeColor();
+    }    
+}
+// function choose LEVEL
+levelEl.addEventListener("click", chooseLevel);
+function chooseLevel (eve) {
+    let levelTarget = eve.target;
+    let value = levelTarget.innerHTML;
+    level = value;
+    changeColor();
 }
 
 //function HINT button
 hintEl.addEventListener("click", hint);
 function hint (){
-    if (Number(numberEl.innerHTML) !== 0){
-        let list = generateArray();
-        let index = list.findIndex((element) => element =="");
-        cellEl[index].innerText = sudoku[index];
-        numberEl.innerHTML -= 1;
+    if (isPlaying) {
+        if (Number(numberEl.innerHTML) !== 0){
+            let list = generateArray();
+            let index = list.findIndex((element) => element =="");
+            cellEl[index].innerText = sudoku[index];
+            numberEl.innerHTML -= 1;
+        } else {
+            alert("You used all hints!");
+        }
     } else {
-        alert("You used all hints!");
+        alert("You haven't started the game!");
     }
-    console.log(board.length);
-    console.log(sudoku.length);
+
 }
 
 // function SUBMIT button
@@ -71,22 +99,26 @@ let acc = true;
 function check (){
     let list = generateArray();
     listNumber = Array.from(list, x => Number(x));
-
-    if ( listNumber.every(checkFill)){
-        if (match(sudoku,listNumber)){
-            alert("You win!");
+    if (isPlaying){
+        if (listNumber.every(checkFill)){
+            if (match(sudoku,listNumber)){
+                alert("You win!");
+            } else {
+                alert("You lose!");
+            }
+            clearEl ();
         } else {
-            alert("You lose!");
+            alert("You need to fill all the blanks!");
         }
-        clearEl ();
+        // check filled board?
+        function checkFill(element) {
+            return element > 0 && element < 10;
+        }
     } else {
-        alert("You need to fill all the blanks!");
-    }
-    // check filled board?
-    function checkFill(element) {
-        return element > 0 && element < 10;
+        alert("You haven't started the game!");
     }
 
+   
 }
 // --------------------------------------------------------
 
@@ -102,26 +134,31 @@ tableEl.addEventListener("click", fillBlank);
 function fillBlank (eve) {
     let cell = eve.target;
     nameCell = cell.getAttribute("class");
-    if (nameCell === "cell"){
-        if ( cell.innerText === "" && value === ""){
-            alert("Please click the value in the last row that you want to insert!");
-        }  else if (cell.innerText !== "" && value === "" ) {
-            cell.innerText = "";
-            cell.style.backgroundColor = "white";
-            if (!match(initialBoard,currentArray())){
-                generateInitialBoard();
-            }
-        } else if (value !== "") {
-            cell.innerText = value;
-            cell.style.backgroundColor = "seashell";
-            if (!match(initialBoard,currentArray())){
-                generateInitialBoard();
-            }
-        } 
-        value = "";
+    if (isPlaying){
+        if (nameCell === "cell"){
+            if ( cell.innerText === "" && value === ""){
+                alert("Please click the value in the last row that you want to insert!");
+            }  else if (cell.innerText !== "" && value === "" ) {
+                cell.innerText = "";
+                cell.style.backgroundColor = "white";
+                if (!match(initialBoard,currentArray())){
+                    generateInitialBoard();
+                }
+            } else if (value !== "") {
+                cell.innerText = value;
+                cell.style.backgroundColor = "seashell";
+                if (!match(initialBoard,currentArray())){
+                    generateInitialBoard();
+                }
+            } 
+            value = "";
+        } else {
+            alert("Choose the cell you want to fill!"); 
+        }    
     } else {
-        alert("Choose the cell you want to fill!"); 
-    }    
+        alert("Please click start game!");
+    }
+    
 
 }
 // --------------------------------------------------------
@@ -144,7 +181,7 @@ function match (array1, array2){
 
 // function random a list
 function randomList () {
-    for (i=0; i < 50; i++) {
+    for (i=0; i < numberOfLevel; i++) {
         let lambda = Math.floor(Math.random ()* 81);
         if (!randomIndex.includes(lambda)){
             randomIndex.push(lambda);
@@ -192,8 +229,56 @@ function clearEl (){
             cellEl[i].style.backgroundColor = "white";
         }
     }
+    interval = 0;
+    timerEl.innerHTML = "00:00";
 }
 
 // function timer
-
+function timer (){
+   let setTimer = setInterval(displayTime, 1000);
+    function displayTime() {
+        if (interval > 0) {
+            let minutes = Math.floor(interval / 60);
+            let seconds = interval % 60;
+            interval --;
+            timerEl.innerHTML = minutes + ":" + seconds;
+        
+            if (interval <= 0) {  
+                clearInterval(setTimer);
+                timerEl.innerHTML = "00:00"  
+                alert("Time is out!");
+                clearEl ();
+                startEl.innerHTML = "START GAME";
+            }
+        } else {
+            clearInterval(setTimer);
+            timerEl.innerHTML = "00:00";
+            startEl.innerHTML = "START GAME";
+        }   
+    }         
+}
+// function change the COLOR of level
+function changeColor () {
+    switch(level){
+        case "EASY":
+            easyEl.style.backgroundColor = "darkslategray";
+            mediumEl.style.backgroundColor = "darkcyan";
+            hardEl.style.backgroundColor = "darkcyan";
+            numberOfLevel = 55;
+            break;
+        case "MEDIUM" :
+            easyEl.style.backgroundColor = "darkcyan";
+            mediumEl.style.backgroundColor = "darkslategray";
+            hardEl.style.backgroundColor = "darkcyan";
+            numberOfLevel = 42;
+            break;
+        case "HARD" :
+            easyEl.style.backgroundColor = "darkcyan";
+            mediumEl.style.backgroundColor = "darkcyan";
+            hardEl.style.backgroundColor = "darkslategray";
+            numberOfLevel = 30;
+            break;
+    }
+};
+changeColor ();
 

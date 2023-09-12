@@ -1,27 +1,32 @@
 * {
   box-sizing: border-box;
 }
+
 body{
   text-align: center;
   align-items: center
 ;
 }
+
 h1{
   font-size: 3em;
 }
+
 #timer{
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 25px;
 }
+
 #hint{
   text-align: center;
   position: relative;
 }
+
 #number{
   height: 2em;
   width: 2em;
-  background-color: #b86b0dfa;
+  background-color: #74709a;
   border-radius: 50%;
   position: absolute;
   left: calc(50% + 6em);
@@ -32,6 +37,9 @@ h1{
 }
 #table{
   margin-top: 25px;
+}
+#table:focus {
+  outline-style: none;
 }
 .row {
   margin-left: auto;
@@ -53,27 +61,32 @@ h1{
   background-color: white;
 }
 
-  button {
-    width: 15em;
-    height: 2em;
-    padding: 0.5em 1em;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    background-color: #4a9b9f;
-    color: white;
-    border: none;
-    border-radius: 0.5em;
-    cursor: pointer;
-    margin-bottom: 15px;
-  }
-  
-  button:hover {
-    background-color: #7d9dca;
-  }
+button {
+  width: 15em;
+  height: 2em;
+  padding: 0.5em 1em;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #4a9b9f;
+  color: white;
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
 
-  #entry > .cellEntry{
-    margin-top: 30px;
-    background-color: bisque;
-  }
+.level{
+  width: 8em;
+  margin-left: 10px;
+}
+
+button:hover {
+  background-color: #7d9dca;
+}
+
+#entry > .cellEntry{
+  margin-top: 30px;
+  background-color: bisque;
+}
