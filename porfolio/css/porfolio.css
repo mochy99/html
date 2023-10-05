@@ -7,6 +7,10 @@
     --small-main-heading-size: 3vh;
     --diameter-moon: 6vh;
     --diameter-earth: calc((var(--diameter-moon) * 1.5));
+    --button-color-1:  rgb(220,79,248);
+    --button-color-2: rgb(70,195,249);
+    --time-options-color: rgba(64, 94, 140, 0.7);
+    --time-options-color2: rgba(33, 42, 54, 0.7);
 }
 
 *{
@@ -14,7 +18,7 @@
     margin: 0px;
     padding: 0px;
     color: white;
-    font-size: 0.8em;
+    font-size: 1.5vh;
 }
 
 body {
@@ -64,12 +68,14 @@ body {
     margin-left: auto;
     text-align: center;
     width: 99vw;
+    height: 40vh;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
 }
 .name {
     animation: bigger 2s ease-in-out;
@@ -96,11 +102,13 @@ body {
     gap: 4vh;
     height: max-content;
     width: 85vw;
-    background-color: var(--color-box);
     padding-top: 2vh;
 }
 h1 {   
-    font-size: 3vh;  
+    font-size: 4vh;  
+}
+h2 {
+    font-size: 4vh;  
 }
 button {
     width: 80vw;
@@ -170,6 +178,60 @@ main {
     justify-content: center;
     gap: 1vh;
 }
+.flip-box {
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
+}
+#person {
+    width: 18vh;
+    height: 18vh;
+}
+#story {
+    width: 60vw;
+    font-size: 1.5vh;
+    border-top: 2.5px var(--color-box2) dashed;
+    padding: 2vh;
+    line-height: 1.7;
+    text-align: justify;
+}
+.skills {
+    width: 85vw;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+.set {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9vw;
+}
+.skill-set {
+    width: 9vh;
+    height: 9vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5vh;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    border-image: linear-gradient(90deg, var(--button-color-1), var(--button-color-2)) 1;
+    border-image-slice: 1; 
+}
+.skill-icon {
+    width: 6vh;
+    height: 6vh;
+    background-size: cover;
+    background-position: center;
+}
 
 .content {
     justify-content: space-evenly;
@@ -177,6 +239,7 @@ main {
     width: 65vw;
     overflow-y: hidden;
 }
+
 #img-pj1, #img-pj2 {
     height: 50vh;
     width: 58vw;
@@ -218,24 +281,27 @@ h4 {
 }
 .detail {
     width: inherit;
-    padding: 10px;
+    height: 4vh;
+    padding: 1vh;
     background-color: var(--color-box2);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 35px;
+    border-radius: 5px;
     text-align: center;
+    
 }
 .detail > div { 
     /* transform: rotateX(180deg); */
     font-size: 1.5vh;
 }
+
 #project2 > .container > .box > .content {
    flex-direction: row;
    flex-wrap: wrap;
 }
 #project2 > .container > .box > .content > .detail {
-    width:max-content;
+    width: max-content;
 }
 .contact > .container {
     justify-content: center;
@@ -353,7 +419,7 @@ input[type='email'] {
     }
 }
 
-@media only screen and (min-width: 578px) {
+@media only screen and (min-width: 788px) {
     .hidden {
         visibility: visible;
         display: block;
@@ -419,4 +485,36 @@ input[type='email'] {
         border: none;
         border-left: 1.5px var(--color-box2) dashed;
     }
+    .flip-box {
+        flex-direction: row;
+    }
+    #person {
+        width: 25vh;
+        height: 25vh;
+    }
+    #story {
+        width: 40vw;
+        font-size: 2.3vh;
+        border-top: none;
+        border-left: 2.5px var(--color-box2) dashed;
+    }
+    .skills {
+        width: 40vw;
+        height: 55vh;
+        flex-direction: row;
+        gap: 4vh;
+    }
+    .set {
+        flex-direction: column;
+        gap: 4vh;
+    }
+    .skill-set {
+        width: 12vh;
+        height: 12vh;
+    }
+    .skill-icon {
+        width: 8vh;
+        height: 8vh;
+    }
+
 }
